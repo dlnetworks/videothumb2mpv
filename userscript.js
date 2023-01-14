@@ -22,7 +22,6 @@
     
     let sites = {
       "youtube.com": { sel: "a.ytd-thumbnail", url: "https://www.youtube.com", needsFullUrl: true },
-      "vimeo.com": { sel: "a.iris_video-vital__overlay", url: "https://vimeo.com", needsFullUrl: false },
     };
     
     // Watches for new elements based on selector to appear on page and assigns a function to them
