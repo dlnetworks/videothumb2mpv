@@ -1,16 +1,16 @@
 // ==UserScript==
 // @name        Click on video thumbnail to play in MPV
-// @namespace   nSinister.scripts.videothumb2mpv
+// @namespace   dlnetworks.scripts.videothumb2mpv
 // @match       https://*.youtube.com/*
 // @match       https://vimeo.com/*
 // @grant       none
 // @version     0.1
-// @author      nSinister
+// @author      nSinister (forked by dlnetworks)
 // @license     MIT
-// @updateURL https://raw.githubusercontent.com/nsinister/videothumb2mpv/master/userscript.js
-// @downloadURL https://raw.githubusercontent.com/nsinister/videothumb2mpv/master/userscript.js
+// @updateURL https://raw.githubusercontent.com/dlnetworks/videothumb2mpv/master/userscript.js
+// @downloadURL https://raw.githubusercontent.com/dlnetworks/videothumb2mpv/master/userscript.js
 // @description Open videos in external player (mpv) by simply clicking on a thumbnail.
-// @copyright 2021, nsinister
+// @copyright 2021, nsinister (forked by dlnetworks)
 // 
 // ==/UserScript==
 
@@ -55,7 +55,7 @@
         let hrefval = node.getAttribute('href');
         if (hrefval == null || hrefval.startsWith("mpv"))
           return;
-        let newval = "mpv://" + btoa( (site.needsFullUrl ? site.url : "") + hrefval);
+        let newval = "mpv://" + (site.needsFullUrl ? site.url : "") + hrefval;
         node.setAttribute('href', newval);
         node.addEventListener('click', function(event){
           event.preventDefault();
@@ -64,6 +64,21 @@
         });
       }
     }
+    
+    // Wait for the search form to be loaded
+    var searchForm = document.getElementById("search-form");
+    if (searchForm) {
+        // Add an event listener to the search form
+        searchForm.addEventListener("submit", function() {
+        // Reload the page when the search form is submitted
+        location.reload();
+      });
+    }
+
+    // Reload the page whenever the URL in the address bar changes
+    window.addEventListener("popstate", function() {
+        location.reload();
+    });
     
     // Detects and returns current site from the list of known websites
     function detectSite(sites) {
